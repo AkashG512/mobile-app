@@ -1,0 +1,79 @@
+import React from 'react';
+import { View } from 'react-native';
+import MaskedView from '@react-native-masked-view/masked-view';
+import { LinearGradient } from 'expo-linear-gradient';
+import { SvgXml } from 'react-native-svg';
+import theme from '@/src/theme';
+
+interface GradientIconProps {
+  children: React.ReactNode;
+  size?: number;
+  active?: boolean;
+}
+
+/**
+ * Icon wrapper that applies gradient when active
+ * For Phosphor icons, wraps them with gradient mask
+ */
+export function GradientIcon({ children, size = 28, active = false }: GradientIconProps) {
+  if (!active) {
+    return <>{children}</>;
+  }
+
+  return (
+    <MaskedView
+      style={{ width: size, height: size }}
+      maskElement={
+        <View style={{ width: size, height: size, backgroundColor: 'transparent' }}>
+          {children}
+        </View>
+      }
+    >
+      <LinearGradient
+        colors={[theme.colors.brandPrimary, theme.colors.brandSecondary]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 0, y: 1 }}
+        style={{ width: size, height: size }}
+      >
+        <View style={{ width: size, height: size }} />
+      </LinearGradient>
+    </MaskedView>
+  );
+}
+
+/**
+ * Dashboard SVG Icon Component
+ */
+export function DashboardIcon({ size = 28, active = false }: { size?: number; active?: boolean }) {
+  const svgXml = `
+    <svg width="${size}" height="${size}" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2.33331 7.58334C2.33331 4.68385 4.68382 2.33334 7.58331 2.33334C10.4828 2.33334 12.8333 4.68385 12.8333 7.58334V11.0833C12.8333 11.4902 12.8333 11.6936 12.7886 11.8605C12.6672 12.3135 12.3134 12.6673 11.8605 12.7886C11.6936 12.8333 11.4902 12.8333 11.0833 12.8333H7.58331C4.68382 12.8333 2.33331 10.4828 2.33331 7.58334Z" fill="#000000"/>
+      <path d="M15.1666 16.9167C15.1666 16.5098 15.1666 16.3064 15.2114 16.1395C15.3327 15.6865 15.6865 15.3328 16.1394 15.2114C16.3064 15.1667 16.5098 15.1667 16.9166 15.1667H20.4166C23.3161 15.1667 25.6666 17.5172 25.6666 20.4167C25.6666 23.3162 23.3161 25.6667 20.4166 25.6667C17.5172 25.6667 15.1666 23.3162 15.1666 20.4167V16.9167Z" fill="#000000"/>
+      <path d="M2.33331 20.4167C2.33331 17.5172 4.68382 15.1667 7.58331 15.1667H10.7333C11.4684 15.1667 11.8359 15.1667 12.1167 15.3097C12.3636 15.4356 12.5644 15.6364 12.6903 15.8833C12.8333 16.1641 12.8333 16.5316 12.8333 17.2667V20.4167C12.8333 23.3162 10.4828 25.6667 7.58331 25.6667C4.68382 25.6667 2.33331 23.3162 2.33331 20.4167Z" fill="#000000"/>
+      <path d="M15.1666 7.58334C15.1666 4.68385 17.5172 2.33334 20.4166 2.33334C23.3161 2.33334 25.6666 4.68385 25.6666 7.58334C25.6666 10.4828 23.3161 12.8333 20.4166 12.8333H16.6666C16.4925 12.8333 16.4054 12.8333 16.3322 12.8251C15.7237 12.7565 15.2435 12.2763 15.1749 11.6678C15.1666 11.5946 15.1666 11.5075 15.1666 11.3333V7.58334Z" fill="#000000"/>
+    </svg>
+  `;
+
+  if (active) {
+    return (
+      <MaskedView
+        style={{ width: size, height: size }}
+        maskElement={
+          <SvgXml xml={svgXml} width={size} height={size} />
+        }
+      >
+        <LinearGradient
+          colors={[theme.colors.brandPrimary, theme.colors.brandSecondary]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 0, y: 1 }}
+          style={{ width: size, height: size }}
+        >
+          <View style={{ width: size, height: size }} />
+        </LinearGradient>
+      </MaskedView>
+    );
+  }
+
+  return <SvgXml xml={svgXml} width={size} height={size} />;
+}
+

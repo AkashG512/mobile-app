@@ -1,35 +1,103 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { BottomTabBar, type TabItem } from '@/src/components/layout';
+import { Tabs, usePathname, useRouter } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+export default function TabsLayout() {
+  const pathname = usePathname();
+  const [activeTab, setActiveTab] = useState('home');
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  // Define tabs based on Figma design
+  const tabs: TabItem[] = [
+    {
+      key: 'home',
+      label: 'Home',
+      icon: 'House',
+      route: '/(tabs)/home',
+    },
+    {
+      key: 'book-artist',
+      label: 'Book Artist',
+      icon: 'Sparkle',
+      route: '/(tabs)/book-artist',
+    },
+    {
+      key: 'dashboard',
+      label: 'Dashboard',
+      icon: 'Widget',
+      route: '/(tabs)/dashboard',
+    },
+    {
+      key: 'profile',
+      label: 'Profile',
+      icon: 'User',
+      route: '/(tabs)/profile',
+    },
+  ];
+
+  // Update active tab based on pathname
+  useEffect(() => {
+    const currentTab = tabs.find(tab => pathname?.includes(tab.route.split('/').pop() || ''));
+    if (currentTab) {
+      setActiveTab(currentTab.key);
+    }
+  }, [pathname]);
+
+  const router = useRouter();
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
+    <View style={styles.container}>
+      <Tabs
+        tabBar={(props) => (
+          <BottomTabBar
+            tabs={tabs}
+            activeTab={activeTab}
+            onTabPress={(key) => {
+              setActiveTab(key);
+              const tab = tabs.find(t => t.key === key);
+              if (tab) {
+                router.push(tab.route as any);
+              }
+            }}
+          />
+        )}
+        screenOptions={{
+          headerShown: false,
+          tabBarStyle: { display: 'none' }, // Hide default tab bar, we use custom one
+        }}
+      >
       <Tabs.Screen
-        name="index"
+        name="home"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="book-artist"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'Book Artist',
+        }}
+      />
+      <Tabs.Screen
+        name="dashboard"
+        options={{
+          title: 'Dashboard',
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: 'Profile',
         }}
       />
     </Tabs>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
+
