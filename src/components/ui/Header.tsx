@@ -1,26 +1,27 @@
 import React from "react";  
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";  
 import { Icon } from "./Icon";  
-  
+import theme, { getTextStyle } from "@/src/theme";
+
 const Header = () => {  
   return (  
     <View style={styles.container}>  
       {/* Location Section */}  
       <View style={styles.leftContainer}>  
-        <Icon name="MapPin" size={22} color="#000" weight="regular" />  
+        <Icon name="MapPin" size={32} color={theme.colors.textPrimary} weight="regular" />  
         <View style={styles.locationTextContainer}>  
-          <Text style={styles.location}>Near Phoenix Market City, Whitefield</Text>  
-          <Text style={styles.subLocation}>Bengaluru - 560066</Text>  
+          <Text style={styles.location} numberOfLines={1}>Near Phoenix Market City, White..</Text>  
+          <Text style={styles.subLocation} numberOfLines={1}>Bengaluru - 560066</Text>  
         </View>  
       </View>  
   
       {/* Right Icons Section */}  
       <View style={styles.rightIcons}>  
-        <TouchableOpacity style={{ marginRight: 18 }}>  
-          <Icon name="ShoppingCartIcon" size={22} color="#000" weight="regular" />  
+        <TouchableOpacity style={{ marginRight: theme.spacing.l }}>  
+          <Icon name="ShoppingCartSimple" size={32} color={theme.colors.textPrimary} weight="regular" />  
         </TouchableOpacity>  
         <TouchableOpacity>  
-          <Icon name="Bell" size={24} color="#000" weight="regular" />  
+          <Icon name="Bell" size={32} color={theme.colors.textPrimary} weight="regular" />  
         </TouchableOpacity>  
       </View>  
     </View>  
@@ -32,32 +33,33 @@ const styles = StyleSheet.create({
     flexDirection: "row",  
     justifyContent: "space-between",  
     alignItems: "center",  
-    paddingHorizontal: 16,  
-    paddingVertical: 10,  
-    backgroundColor: "#fff",  
+    paddingHorizontal: theme.spacing.l,  
+    paddingVertical: theme.spacing.m,  
+    backgroundColor: theme.colors.white,
+    gap: theme.spacing.m, // Added gap
   },  
   leftContainer: {  
     flexDirection: "row",  
     alignItems: "center",  
-    flex: 1,  
+    flexShrink: 1, // Changed from flex: 1
   },  
   locationTextContainer: {  
-    marginLeft: 8,  
-    flexShrink: 1,  
+    marginLeft: theme.spacing.s,  
+    flexShrink: 1, // Allow text to shrink
   },  
   location: {  
-    fontSize: 13,  
-    fontWeight: "500",  
-    color: "#000",  
+    ...getTextStyle('m', 'semibold'),
+    color: theme.colors.textPrimary,  
   },  
   subLocation: {  
-    fontSize: 11,  
-    color: "gray",  
+    ...getTextStyle('m', 'regular'),
+    color: theme.colors.textSecondary,  
   },  
   rightIcons: {  
     flexDirection: "row",  
-    alignItems: "center",  
+    alignItems: "center",
+    flexShrink: 0, // Prevent this container from shrinking
   },  
 });  
   
-export default Header;  
+export default Header;

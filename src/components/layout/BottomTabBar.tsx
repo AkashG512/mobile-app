@@ -1,6 +1,6 @@
 import { Icon } from '@/src/components/ui';
 import { DashboardIcon, GradientIcon } from '@/src/components/ui/GradientIcon';
-import theme from '@/src/theme';
+import theme, { getTextStyle } from '@/src/theme';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
@@ -121,16 +121,14 @@ const styles = StyleSheet.create({
     gap: 4, // Match Figma: 4px gap between icon and text
   },
   activeLabel: {
-    fontSize: 12,
+    ...getTextStyle('s', 'semibold'),
     lineHeight: 14.4, // 1.2em
-    fontWeight: '600',
     color: theme.colors.white,
   },
   inactiveLabel: {
-    fontSize: 12,
+    ...getTextStyle('s', 'semibold'),
     lineHeight: 14.4, // 1.2em
-    fontWeight: '700',
+    fontWeight: '700', // Figma specified 700, overriding theme's 600
     color: theme.colors.textPrimary,
   },
 });
-

@@ -3,7 +3,7 @@ import { ScrollView, View, Image, StyleSheet } from "react-native";
 import Header from "@/src/components/ui/Header";  
 import PostCard from "../../../src/components/ui/PostCard";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+import theme from "@/src/theme";
 
 const HomeScreen = () => {  
   return ( 
@@ -11,7 +11,7 @@ const HomeScreen = () => {
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>  
       <Header />  
   
-      //{/* Banner *
+      {/* Banner 
       <View style={styles.bannerContainer}>  
         <Image  
           source={{ uri: "https://picsum.photos/200/100" }}  
@@ -57,11 +57,16 @@ const HomeScreen = () => {
 };  
   
 const styles = StyleSheet.create({  
-  container: { flex: 1, backgroundColor: "#fff" },  
-  bannerContainer: { marginHorizontal: 16, marginTop: 10 },  
-  banner: { width: "100%", height: 100, borderRadius: 10 },  
+  container: { flex: 1, backgroundColor: theme.colors.white },  
+  bannerContainer: { 
+    marginHorizontal: theme.spacing.l, 
+    marginTop: theme.spacing.m 
+  },  
+  banner: { 
+    width: "100%", 
+    height: 100, 
+    borderRadius: theme.borderRadius.m 
+  },  
 });  
   
-export default HomeScreen;  
-
-
+export default HomeScreen;

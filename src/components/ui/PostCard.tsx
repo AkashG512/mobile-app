@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Icon } from "@/src/components/ui/Icon";
+import theme, { getTextStyle } from "@/src/theme";
 
 interface Props {
   name: string;
@@ -27,12 +28,17 @@ const PostCard: React.FC<Props> = ({
         <Image source={avatar} style={styles.avatar} />
         <View style={{ flex: 1 }}>
           <Text style={styles.name}>{name}</Text>
-          <Text style={styles.subText}>
+          <Text style={styles.subText} numberOfLines={1}>
             {role} - {location}
           </Text>
         </View>
         <TouchableOpacity>
-          <Icon name="DotsThree" size={18} color="#000" weight="regular" />
+          <Icon 
+            name="DotsThreeVertical" 
+            size={28} 
+            color={theme.colors.textPrimary} 
+            weight="bold" 
+          />
         </TouchableOpacity>
       </View>
 
@@ -45,24 +51,31 @@ const PostCard: React.FC<Props> = ({
       <Image source={image} style={styles.mainImage} />
 
       <View style={styles.actions}>
+      <Icon
+          name="Smiley"
+          size={28}
+          color={theme.colors.textPrimary}
+          weight="regular"
+          style={styles.icon}
+        />
         <Icon
           name="ChatCircle"
-          size={20}
-          color="#000"
+          size={28}
+          color={theme.colors.textPrimary}
           weight="regular"
           style={styles.icon}
         />
         <Icon
-          name="PaperPlane"
-          size={20}
-          color="#000"
+          name="PaperPlaneTilt"
+          size={28}
+          color={theme.colors.textPrimary}
           weight="regular"
           style={styles.icon}
         />
         <Icon
-          name="Bookmark"
-          size={20}
-          color="#000"
+          name="BookmarkSimple"
+          size={28}
+          color={theme.colors.textPrimary}
           weight="regular"
           style={styles.iconRight}
         />
@@ -73,47 +86,60 @@ const PostCard: React.FC<Props> = ({
 
 const styles = StyleSheet.create({
   container: {
-    marginVertical: 10,
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    paddingHorizontal: 12,
+    marginVertical: theme.spacing.m,
+    backgroundColor: theme.colors.white,
+    borderRadius: theme.borderRadius.s,
+    paddingHorizontal: theme.spacing.m,
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 8,
+    marginVertical: theme.spacing.s,
   },
   avatar: {
     width: 36,
     height: 36,
     borderRadius: 18,
-    marginRight: 10,
+    marginRight: theme.spacing.s,
   },
   name: {
-    fontWeight: "600",
-    fontSize: 14,
+    ...getTextStyle("m", "semibold"),
+    color: theme.colors.textPrimary,
   },
   subText: {
-    fontSize: 11,
-    color: "gray",
+    ...getTextStyle("s", "regular"),
+    color: theme.colors.textSecondary,
   },
   description: {
-    fontSize: 13,
-    color: "#222",
+    ...getTextStyle("m", "regular"),
+    color: theme.colors.textPrimary,
   },
   readMore: {
-    color: "#007aff",
-    fontSize: 12,
+    ...getTextStyle("s", "regular"),
+    color: theme.colors.brandPrimary,
   },
-  time: { color: "gray", fontSize: 10, marginTop: 2 },
-  mainImage: { width: "100%", height: 220, borderRadius: 12, marginTop: 6 },
+  time: { 
+    ...getTextStyle("xs", "regular"),
+    color: theme.colors.textSecondary, 
+    marginTop: theme.spacing["2xs"] 
+  },
+  mainImage: { 
+    width: "100%", 
+    height: 430, 
+    borderRadius: theme.borderRadius.m, 
+    marginTop: theme.spacing.s 
+  },
   actions: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginVertical: 8,
+    marginVertical: theme.spacing.s,
   },
-  icon: { marginLeft: 14 },
-  iconRight: { marginLeft: "auto" },
+  icon: { 
+    marginLeft: theme.spacing.m 
+  },
+  iconRight: { 
+    marginLeft: "auto" 
+  },
 });
 
 export default PostCard;

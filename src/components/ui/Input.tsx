@@ -11,13 +11,12 @@ export interface InputProps extends TextInputProps {
 
 /**
  * Input component matching Figma design
- * 
- * @example
+ * * @example
  * ```tsx
  * <Input 
- *   placeholder="Mobile number" 
- *   value={value}
- *   onChangeText={onChangeText}
+ * placeholder="Mobile number" 
+ * value={value}
+ * onChangeText={onChangeText}
  * />
  * ```
  */
@@ -79,11 +78,10 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    ...getTextStyle('m', 'semibold'),
+    ...getTextStyle('m', 'semibold'), // This provides 14px/20px
     color: theme.colors.textPrimary,
     padding: 0, // Remove default padding
-    fontSize: 14,
-    lineHeight: 20, // 1.4285714285714286em
+    // Removed redundant fontSize and lineHeight
   },
   error: {
     ...getTextStyle('xs', 'regular'),
@@ -91,4 +89,3 @@ const styles = StyleSheet.create({
     marginTop: theme.spacing.xs,
   },
 });
-

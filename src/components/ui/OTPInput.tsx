@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { View, TextInput, Text, StyleSheet, Platform } from 'react-native';
 import theme from '@/src/theme';
-import { getTextStyle } from '@/src/theme';
+import { getTextStyle, getHeadingStyle } from '@/src/theme';
 
 export interface OTPInputProps {
   length?: number;
@@ -13,14 +13,13 @@ export interface OTPInputProps {
 
 /**
  * OTP Input component for entering verification codes
- * 
- * @example
+ * * @example
  * ```tsx
  * <OTPInput
- *   length={6}
- *   value={otp}
- *   onChangeText={setOtp}
- *   onComplete={(code) => console.log('OTP:', code)}
+ * length={6}
+ * value={otp}
+ * onChangeText={setOtp}
+ * onComplete={(code) => console.log('OTP:', code)}
  * />
  * ```
  */
@@ -132,8 +131,7 @@ const styles = StyleSheet.create({
     height: 56,
     backgroundColor: theme.colors.white,
     borderRadius: theme.borderRadius.m,
-    ...getTextStyle('l', 'semibold'),
-    fontSize: 24,
+    ...getHeadingStyle('m'), // Was getTextStyle('l') with 24px font
     textAlign: 'center',
     color: theme.colors.textPrimary,
     ...Platform.select({
@@ -165,4 +163,3 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
-

@@ -32,8 +32,7 @@ export interface ButtonProps {
 /**
  * Button component with multiple variants matching Figma design
  * Based on: https://www.figma.com/design/B8CwvwSweTllrqpSCJXG5C/sowwrok?node-id=58-1517
- * 
- * @example
+ * * @example
  * ```tsx
  * <Button title="Primary" variant="primary" onPress={() => {}} />
  * <Button title="Secondary" variant="secondary" onPress={() => {}} />
@@ -200,19 +199,16 @@ const styles = StyleSheet.create({
     color: '#333333', // Match Figma: fill_ZYULL8
   },
   text_small: {
-    fontSize: 14,
-    lineHeight: 20,
+    ...getTextStyle('m', 'regular'), // Was 14px/20px
   },
   text_medium: {
-    fontSize: 16,
-    lineHeight: 24, // 1.5em
+    ...getTextStyle('l', 'regular'), // Was 16px/24px
   },
   text_large: {
-    fontSize: 18,
+    fontSize: 18, // 18px is custom, not in theme text styles
     lineHeight: 27,
   },
   text_disabled: {
     opacity: 0.6,
   },
 });
-

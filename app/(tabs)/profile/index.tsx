@@ -1,9 +1,9 @@
-import { Text, ScrollView } from 'react-native';
+import { Text, ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaContainer } from '@/src/components/layout';
 import { ProfileHeader } from './components/ProfileHeader';
 import { useProfile } from './hooks/useProfile';
 import type { ProfileData } from './types';
-import theme from '@/src/theme';
+import theme, { getTextStyle } from '@/src/theme';
 
 export default function ProfileScreen() {
   const { profile, isLoading } = useProfile();
@@ -16,9 +16,16 @@ export default function ProfileScreen() {
         showsVerticalScrollIndicator={false}
       >
         <ProfileHeader profile={profile} />
-        <Text style={{ marginTop: theme.spacing.xl }}>Profile Screen</Text>
+        <Text style={styles.placeholderText}>Profile Screen</Text>
       </ScrollView>
     </SafeAreaContainer>
   );
 }
 
+const styles = StyleSheet.create({
+  placeholderText: {
+    ...getTextStyle('m', 'regular'),
+    marginTop: theme.spacing.xl,
+    color: theme.colors.textSecondary,
+  },
+});

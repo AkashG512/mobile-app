@@ -1,5 +1,6 @@
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import type { ProfileData } from '../types';
+import theme, { getHeadingStyle } from '@/src/theme';
 
 interface ProfileHeaderProps {
   profile: ProfileData | null;
@@ -8,8 +9,14 @@ interface ProfileHeaderProps {
 export function ProfileHeader({ profile }: ProfileHeaderProps) {
   return (
     <View>
-      <Text>{profile?.name || 'Loading...'}</Text>
+      <Text style={styles.name}>{profile?.name || 'Loading...'}</Text>
     </View>
   );
 }
 
+const styles = StyleSheet.create({
+  name: {
+    ...getHeadingStyle('l'),
+    color: theme.colors.textPrimary,
+  },
+});
