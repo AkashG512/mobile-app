@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useRef, useCallback } from "react"; // 1. Import useCallback
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Icon } from "@/src/components/ui/Icon";
 import theme, { getTextStyle } from "@/src/theme";
+import { CommentBottomSheet, type CommentBottomSheetMethods } from "./CommentBottomSheet"; 
 
 interface Props {
   name: string;
@@ -22,77 +23,99 @@ const PostCard: React.FC<Props> = ({
   image,
   avatar,
 }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const commentSheetRef = useRef<CommentBottomSheetMethods>(null);
+
+  // 2. Wrap the function in useCallback
+  const handleOpenComments = useCallback(() => {
+    commentSheetRef.current?.present();
+  }, []); // Add an empty dependency array
+
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Image source={avatar} style={styles.avatar} />
-        <View style={{ flex: 1 }}>
-          <Text style={styles.name}>{name}</Text>
-          <Text style={styles.subText} numberOfLines={1}>
-            {role} - {location}
+    <>
+      <View style={styles.container}>
+        {/* ... (rest of the header) ... */}
+        <View style={styles.header}>
+          <Image source={avatar} style={styles.avatar} />
+          <View style={{ flex: 1 }}>
+            <Text style={styles.name}>{name}</Text>
+            <Text style={styles.subText} numberOfLines={1}>
+              {role} - {location}
+            </Text>
+          </View>
+          <TouchableOpacity style={styles.iconButton} activeOpacity={0.7}>
+            <Icon 
+              name="DotsThreeVertical" 
+              size={28} 
+              color={theme.colors.textPrimary} 
+              weight="bold" 
+            />
+          </TouchableOpacity>
+        </View>
+
+        <Text numberOfLines={isExpanded ? undefined : 2} style={styles.description}>
+          {description}
+        </Text>
+        <TouchableOpacity onPress={() => setIsExpanded(!isExpanded)} activeOpacity={0.7}>
+          <Text style={styles.readMore}>
+            {isExpanded ? 'Read less' : 'Read more'}
           </Text>
-        </View>
-        <TouchableOpacity style={styles.iconButton} activeOpacity={0.7}>
-          <Icon 
-            name="DotsThreeVertical" 
-            size={28} 
-            color={theme.colors.textPrimary} 
-            weight="bold" 
-          />
         </TouchableOpacity>
+        <Text style={styles.time}>5 mins ago</Text>
+
+        <Image source={image} style={styles.mainImage} />
+
+        <View style={styles.actions}>
+          {/* Left Actions */}
+          <View style={styles.leftActions}>
+            <TouchableOpacity style={styles.iconButton} activeOpacity={0.7}>
+              <Icon
+                name="Smiley"
+                size={28}
+                color={theme.colors.textPrimary}
+                weight="regular"
+              />
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={styles.iconButton} 
+              activeOpacity={0.7}
+              onPress={handleOpenComments} // This will now use the memoized function
+            >
+              <Icon
+                name="ChatCircle"
+                size={28}
+                color={theme.colors.textPrimary}
+                weight="regular"
+              />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.iconButton} activeOpacity={0.7}>
+              <Icon
+                name="PaperPlaneTilt"
+                size={28}
+                color={theme.colors.textPrimary}
+                weight="regular"
+              />
+            </TouchableOpacity>
+          </View>
+          
+          {/* Right Action */}
+          <TouchableOpacity style={styles.iconButton} activeOpacity={0.7}>
+            <Icon
+              name="BookmarkSimple"
+              size={28}
+              color={theme.colors.textPrimary}
+              weight="regular"
+            />
+          </TouchableOpacity>
+        </View>
       </View>
 
-      <Text numberOfLines={2} style={styles.description}>
-        {description}
-      </Text>
-      <Text style={styles.readMore}>Read more</Text>
-      <Text style={styles.time}>5 mins ago</Text>
-
-      <Image source={image} style={styles.mainImage} />
-
-      <View style={styles.actions}>
-        {/* Left Actions */}
-        <View style={styles.leftActions}>
-          <TouchableOpacity style={styles.iconButton} activeOpacity={0.7}>
-            <Icon
-              name="Heart"
-              size={28}
-              color={theme.colors.textPrimary}
-              weight="regular"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.iconButton} activeOpacity={0.7}>
-            <Icon
-              name="ChatCircle"
-              size={28}
-              color={theme.colors.textPrimary}
-              weight="regular"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.iconButton} activeOpacity={0.7}>
-            <Icon
-              name="PaperPlaneTilt"
-              size={28}
-              color={theme.colors.textPrimary}
-              weight="regular"
-            />
-          </TouchableOpacity>
-        </View>
-        
-        {/* Right Action */}
-        <TouchableOpacity style={styles.iconButton} activeOpacity={0.7}>
-          <Icon
-            name="BookmarkSimple"
-            size={28}
-            color={theme.colors.textPrimary}
-            weight="regular"
-          />
-        </TouchableOpacity>
-      </View>
-    </View>
+      <CommentBottomSheet ref={commentSheetRef} />
+    </>
   );
 };
 
+// Styles remain the same
 const styles = StyleSheet.create({
   container: {
     marginVertical: theme.spacing.m,
@@ -126,6 +149,7 @@ const styles = StyleSheet.create({
   readMore: {
     ...getTextStyle("s", "regular"),
     color: theme.colors.brandPrimary,
+    paddingTop: theme.spacing.xs,
   },
   time: { 
     ...getTextStyle("xs", "regular"),
@@ -146,13 +170,13 @@ const styles = StyleSheet.create({
   },
   leftActions: {
     flexDirection: 'row',
-    alignItems: 'center', // Gap between left icons
+    alignItems: 'center',
+    gap: theme.spacing.m, // Gap between left icons
   },
   iconButton: {
     // Consistent touch target for all icons
     padding: theme.spacing.xs,
   },
-  // Removed unused .icon and .iconRight
 });
 
 export default PostCard;
