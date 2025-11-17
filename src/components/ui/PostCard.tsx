@@ -32,7 +32,7 @@ const PostCard: React.FC<Props> = ({
             {role} - {location}
           </Text>
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity style={styles.iconButton} activeOpacity={0.7}>
           <Icon 
             name="DotsThreeVertical" 
             size={28} 
@@ -51,34 +51,43 @@ const PostCard: React.FC<Props> = ({
       <Image source={image} style={styles.mainImage} />
 
       <View style={styles.actions}>
-      <Icon
-          name="Smiley"
-          size={28}
-          color={theme.colors.textPrimary}
-          weight="regular"
-          style={styles.icon}
-        />
-        <Icon
-          name="ChatCircle"
-          size={28}
-          color={theme.colors.textPrimary}
-          weight="regular"
-          style={styles.icon}
-        />
-        <Icon
-          name="PaperPlaneTilt"
-          size={28}
-          color={theme.colors.textPrimary}
-          weight="regular"
-          style={styles.icon}
-        />
-        <Icon
-          name="BookmarkSimple"
-          size={28}
-          color={theme.colors.textPrimary}
-          weight="regular"
-          style={styles.iconRight}
-        />
+        {/* Left Actions */}
+        <View style={styles.leftActions}>
+          <TouchableOpacity style={styles.iconButton} activeOpacity={0.7}>
+            <Icon
+              name="Heart"
+              size={28}
+              color={theme.colors.textPrimary}
+              weight="regular"
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.iconButton} activeOpacity={0.7}>
+            <Icon
+              name="ChatCircle"
+              size={28}
+              color={theme.colors.textPrimary}
+              weight="regular"
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.iconButton} activeOpacity={0.7}>
+            <Icon
+              name="PaperPlaneTilt"
+              size={28}
+              color={theme.colors.textPrimary}
+              weight="regular"
+            />
+          </TouchableOpacity>
+        </View>
+        
+        {/* Right Action */}
+        <TouchableOpacity style={styles.iconButton} activeOpacity={0.7}>
+          <Icon
+            name="BookmarkSimple"
+            size={28}
+            color={theme.colors.textPrimary}
+            weight="regular"
+          />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -131,15 +140,19 @@ const styles = StyleSheet.create({
   },
   actions: {
     flexDirection: "row",
+    alignItems: "center",
     justifyContent: "space-between",
     marginVertical: theme.spacing.s,
   },
-  icon: { 
-    marginLeft: theme.spacing.m 
+  leftActions: {
+    flexDirection: 'row',
+    alignItems: 'center', // Gap between left icons
   },
-  iconRight: { 
-    marginLeft: "auto" 
+  iconButton: {
+    // Consistent touch target for all icons
+    padding: theme.spacing.xs,
   },
+  // Removed unused .icon and .iconRight
 });
 
 export default PostCard;
